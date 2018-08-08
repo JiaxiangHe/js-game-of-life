@@ -1,0 +1,33 @@
+body {
+    padding: 0 20px;
+}
+.life {
+    &__fieldset {
+        margin: 0;
+    }
+    &__setting {
+        margin-bottom: 20px;
+    }
+    &__label {
+        margin-right: 20px;
+    }
+    &__square {
+        display: inline-block;
+        border: 1px solid #666;
+        margin-bottom: 20px;
+    }
+    &__point {
+        cursor: pointer;
+        float: left;
+        width: 8px;
+        height: 8px;
+        &--active, &:hover {
+            background: black;
+        }
+    }
+}
+.clearfix::after {
+    display: block;
+    content: "";
+    clear: both;
+}
