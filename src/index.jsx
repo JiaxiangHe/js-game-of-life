@@ -1,8 +1,8 @@
-import * as React from "react";
+import React from "react";
 
-import LifeSquare from "./view/LifeSquare.jsx";
-
-export const SizeContext = React.createContext(8);
+import LifeSquare, { LifeSquareWithLog } from "./view/LifeSquare.jsx";
+import { SizeContext } from "./context/index.jsx";
+import ErrorBoundary from "./errorHandler/index.jsx";
 
 export default class GameOfLife extends React.Component {
     constructor() {
@@ -17,6 +17,8 @@ export default class GameOfLife extends React.Component {
             },
             life: []
         }
+
+        this.testRef = React.createRef();
 
         this.hasChange = false;
         this.aroundLife = [{ i: -1, j: -1 }, { i: -1, j: 0 }, { i: -1, j: 1 }, { i: 0, j: -1 }, { i: 0, j: 1 }, { i: 1, j: -1 }, { i: 1, j: 0 }, { i: 1, j: 1 }]
@@ -61,6 +63,8 @@ export default class GameOfLife extends React.Component {
                 this.setState({
                     gameState: nextState,
                     life
+                }, () => {
+                    console.log(this.testRef);
                 });
                 break;
             case 2:
@@ -157,7 +161,9 @@ export default class GameOfLife extends React.Component {
                 {this.state.gameState > 0 ? <div className="life__palyground">
                     <p>{this.gameInfo()}</p>
                     <SizeContext.Provider value={this.state.setting.size}>
-                        <LifeSquare life={this.state.life} onClick={this.setLife} /> 
+                        <ErrorBoundary>
+                            <LifeSquareWithLog ref={this.testRef} life={this.state.life} height={this.state.setting.height} onClick={this.setLife} /> 
+                        </ErrorBoundary>
                     </SizeContext.Provider>
                 </div> : null}
                 {this.state.gameState > 0 ? <button onClick={() => this.gameState(0)}>Rest</button> : null}

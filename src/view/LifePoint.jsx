@@ -1,6 +1,6 @@
-import * as React from "react";
+import React from "react";
 
-import { SizeContext } from "../index.jsx";
+import { SizeContext } from "../context/index.jsx";
 
 export default function LifePoint(props) {
     return (
