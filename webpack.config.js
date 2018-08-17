@@ -56,8 +56,8 @@ let config = {
     plugins: [
         new CleanWebpackPlugin(distPath),
         new HtmlWebpackPlugin({
-            template: `${srcPath}/src/template/app.pug`,
-            filename: 'app.html'
+            template: `${srcPath}/src/template/index.pug`,
+            filename: 'index.html'
         }),
         // new HtmlWebpackPugPlugin(),
         new MiniCssExtractPlugin({

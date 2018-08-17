@@ -8,7 +8,7 @@ export default class GameOfLife extends React.Component {
     constructor() {
         super();
         this.state = {
-            gameState: 0, // 0: end, 1: setting, 2: start, 3: paused, 4: end
+            gameState: 0, // 0: end, 1: setting, 2: start, 3: end
             setting: {
                 height: 50,
                 width: 50,
@@ -113,7 +113,7 @@ export default class GameOfLife extends React.Component {
                 setTimeout(() => {
                     game.call(this);
                 }, this.state.setting.duration);
-            } else if (this.state.gameState === 3) {
+            } else if (this.state.gameState === 2) {
                 this.setState({
                     gameState: 3
                 });
