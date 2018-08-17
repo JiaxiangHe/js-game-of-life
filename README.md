@@ -8,4 +8,4 @@ Game of life react implemention
 4. click 'Rest' to reset at anytime
 
 ## View
-![view of the game](/view.jpeg "view of the game")
+![view of the game](/view.jpg "view of the game")
