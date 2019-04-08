@@ -3,10 +3,11 @@ import React from "react";
 import LifeSquare, { LifeSquareWithLog } from "./view/LifeSquare.jsx";
 import { SizeContext } from "./context/index.jsx";
 import ErrorBoundary from "./errorHandler/index.jsx";
+import { list as defaultList } from "./data/list";
 
 export default class GameOfLife extends React.Component {
-    constructor() {
-        super();
+    constructor(props) {
+        super(props);
         this.state = {
             gameState: 0, // 0: end, 1: setting, 2: start, 3: end
             setting: {
@@ -20,6 +21,7 @@ export default class GameOfLife extends React.Component {
 
         this.testRef = React.createRef();
 
+        this.pattern = props.pattern || 'Gliner';
         this.hasChange = false;
         this.aroundLife = [{ i: -1, j: -1 }, { i: -1, j: 0 }, { i: -1, j: 1 }, { i: 0, j: -1 }, { i: 0, j: 1 }, { i: 1, j: -1 }, { i: 1, j: 0 }, { i: 1, j: 1 }]
 
@@ -44,6 +46,16 @@ export default class GameOfLife extends React.Component {
             });
         }
     }
+    getLifePattern(list) {
+        const ci = this.state.setting.height / 2;
+        const cj = this.state.setting.width / 2;
+        let life = [];
+        for (let i = 0; i < this.state.setting.height; i++) {
+            life.push(new Array(this.state.setting.width).fill(0))
+        }
+        list.map(point => { life[ci + point.i][cj + point.j] = 1; });
+        return life;
+    }
     gameState(index) {
         const nextState = index || index === 0 ? index : this.state.gameState + 1;
         let life = this.state.life;
@@ -56,10 +68,7 @@ export default class GameOfLife extends React.Component {
                 });
                 break;
             case 1:
-                life = []
-                for (let i = 0; i < this.state.setting.height; i ++) {
-                    life.push(new Array(this.state.setting.width).fill(0))
-                }
+                life = this.getLifePattern(defaultList[this.pattern])
                 this.setState({
                     gameState: nextState,
                     life
@@ -125,7 +134,7 @@ export default class GameOfLife extends React.Component {
         let info = '';
         switch (this.state.gameState) {
             case 1:
-                info = 'Put some original life'
+                info = 'Put some original life, or select a pattern we have'
                 break;
             case 2:
                 info = 'Life is continue'
@@ -160,6 +169,14 @@ export default class GameOfLife extends React.Component {
                 </form>
                 {this.state.gameState > 0 ? <div className="life__palyground">
                     <p>{this.gameInfo()}</p>
+                    <select className="pattern" onChange={event => {
+                        this.pattern = event.target.value;
+                        this.setState({
+                            life: this.getLifePattern(defaultList[event.target.value])
+                        });
+                    }} >
+                        {Object.keys(defaultList).map(key => <option selected={this.defaultPattern === 'key'} value={key}>{key}</option>)}
+                    </select>
                     <SizeContext.Provider value={this.state.setting.size}>
                         <ErrorBoundary>
                             <LifeSquareWithLog ref={this.testRef} life={this.state.life} height={this.state.setting.height} onClick={this.setLife} /> 
