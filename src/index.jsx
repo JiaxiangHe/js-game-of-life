@@ -169,13 +169,22 @@ export default class GameOfLife extends React.Component {
                 </form>
                 {this.state.gameState > 0 ? <div className="life__palyground">
                     <p>{this.gameInfo()}</p>
-                    <select className="pattern" onChange={event => {
+                    <select className="pattern" defaultValue={this.defaultPattern} onChange={event => {
                         this.pattern = event.target.value;
-                        this.setState({
-                            life: this.getLifePattern(defaultList[event.target.value])
-                        });
+                        if (this.state.gameState === 3) {
+                            this.setState({
+                                life: this.getLifePattern(defaultList[event.target.value]),
+                                gameState: 2
+                            }, () => {
+                                this.gameStart()
+                            });
+                        } else {
+                            this.setState({
+                                life: this.getLifePattern(defaultList[event.target.value])
+                            });
+                        }
                     }} >
-                        {Object.keys(defaultList).map(key => <option selected={this.defaultPattern === 'key'} value={key}>{key}</option>)}
+                        {Object.keys(defaultList).map(key => <option key={key} value={key}>{key}</option>)}
                     </select>
                     <SizeContext.Provider value={this.state.setting.size}>
                         <ErrorBoundary>
