@@ -1,7 +1,7 @@
 # js-game-of-life
 Game of life react implemention
 
-Check http://45.32.40.27/game-of-life/
+Check http://67.230.163.90/game-of-life/
 
 ## Guide
 1. Set the parameters of the game, then click 'Next'
