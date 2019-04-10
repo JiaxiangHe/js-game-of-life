@@ -23,7 +23,8 @@ export default class GameOfLife extends React.Component {
 
         this.pattern = props.pattern || 'Gliner';
         this.hasChange = false;
-        this.aroundLife = [{ i: -1, j: -1 }, { i: -1, j: 0 }, { i: -1, j: 1 }, { i: 0, j: -1 }, { i: 0, j: 1 }, { i: 1, j: -1 }, { i: 1, j: 0 }, { i: 1, j: 1 }]
+        this.aroundLife = [{ i: -1, j: -1 }, { i: -1, j: 0 }, { i: -1, j: 1 }, { i: 0, j: -1 }, { i: 0, j: 1 }, { i: 1, j: -1 }, { i: 1, j: 0 }, { i: 1, j: 1 }];
+        this.img = document.querySelector('img');
 
         this.setting = this.setting.bind(this);
         this.setLife = this.setLife.bind(this);
@@ -61,6 +62,7 @@ export default class GameOfLife extends React.Component {
         let life = this.state.life;
         switch (nextState) {
             case 0:
+                this.img.style.display = '';
                 life = [];
                 this.setState({
                     gameState: nextState,
@@ -68,6 +70,7 @@ export default class GameOfLife extends React.Component {
                 });
                 break;
             case 1:
+                this.img.style.display = 'none';
                 life = this.getLifePattern(defaultList[this.pattern])
                 this.setState({
                     gameState: nextState,
@@ -193,7 +196,7 @@ export default class GameOfLife extends React.Component {
                     </SizeContext.Provider>
                 </div> : null}
                 {this.state.gameState > 0 ? <button onClick={() => this.gameState(0)}>Rest</button> : null}
-                {this.state.gameState < 2 ? <button onClick={() => this.gameState()}>Next</button> : null}
+                {this.state.gameState < 2 ? <button onClick={() => this.gameState()}>{this.state.gameState < 1 ? 'Game' : 'Start'}</button> : null}
             </div>
         )
     }

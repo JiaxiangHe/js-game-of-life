@@ -31,6 +31,13 @@ body {
         }
     }
 }
+button {
+    height: 30px;
+    width: 50px;
+    border-radius: 5px;
+    outline: none;
+    margin-right: 10px;
+}
 .clearfix::after {
     display: block;
     content: "";
